@@ -11,7 +11,7 @@ class pphelp(commands.Cog):
 
         self.main_message = "Paypal/cash trades are a risk. Please take precautions before sending items to avoid being scammed. Such precautions include, but are not limited to, checking user's backpack.tf, steamrep, rep.tf, asking for screenshots of previous cash trades and asking other people who have worked with the user for legitimacy. Stay safe!"
         self.listing_channels = [332221029382488065, 375800525054148609, 332221993724411944] #the channel IDs of all the server's listing channels (#low-tier-listings, #high-tier-listings, #unusual-listings)
-        self.trigger_words = ['paypal', 'cash', 'money', '$', '£', '€', 'dollar', 'euro']
+        self.trigger_words = ['paypal', 'cash', 'money']
 
         if message.author.id != 603734708450361364: #makes sure the listener isn't triggered by its own messages
             for channel_id in self.listing_channels: #cycles through each of the listing channels and sees if the message was sent in any of them
