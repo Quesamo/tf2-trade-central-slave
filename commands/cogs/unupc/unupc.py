@@ -102,9 +102,9 @@ class unupc(commands.Cog):
         if item_input[0].lower() == 'orbiting fire': #item_effect will otherwise be set to Eerie orbiting fire, even when using the full name
             item_effect = 'Orbiting Fire'
         else:
-            print(item_input[0]) #for debugging
+            #print(item_input[0]) #for debugging
             for effect in effects_dict.keys(): #cycles through every effect in the dict
-                print(effect) #for debugging
+                #print(effect) #for debugging
                 if item_input[0].lower() in effect.lower(): #if the key name matches the given effect name
                     item_effect = effect #sets the given item's effect to the current one
         
@@ -112,14 +112,14 @@ class unupc(commands.Cog):
             await ctx.send("Couldn't find an effect with that name. Make sure you're using correct syntax (``effect.hat``)")
             return #quits the function
 
-        print(item_effect, item_hat) #for... wait for it... debugging
-        print(effects_dict[item_effect]) #guess
+        print(f"$unupc used for item {item_effect, item_hat}") #for... wait for it... debugging
+        #print(effects_dict[item_effect]) #guess
 
         try:
             price_currency = response['response']['items'][item_hat]['prices']['5']['Tradable']['Craftable'][effects_dict[item_effect]]['currency']
             price_low     =  response['response']['items'][item_hat]['prices']['5']['Tradable']['Craftable'][effects_dict[item_effect]]['value']
             
-            try: #if the item has a high value, uses that
+            try: #if the item has a high value, uses that to create an average
                 price_high   =   response['response']['items'][item_hat]['prices']['5']['Tradable']['Craftable'][effects_dict[item_effect]]['value_high']
                 price_average = (price_low + price_high)/2 #calculates the price average off the low and high values
                 if '.' in str(price_average) and str(price_average)[-1] == '0': #if the average price has a comma in it, but ends in a 0, converts it to int to remove the unnecessary decimal
@@ -131,7 +131,7 @@ class unupc(commands.Cog):
                 price_message = f"The {item_effect} {item_hat} is priced at {price_low} {price_currency}" 
                 
         except KeyError: #if a hat with the specified effect can't be found
-            await ctx.send("An error occured: This item is either unpriced, or doesn't exist")
+            await ctx.send(f"An error occured: The {item_effect} {item_hat} is either unpriced, or doesn't exist")
             return
 
         await ctx.send(price_message)
