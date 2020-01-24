@@ -22,7 +22,7 @@ bot.load_extension('commands.cogs.pinghelp.pinghelp') #sends a message if the tr
 
 @bot.event
 async def on_ready():
-    print(f'Bot started running at {datetime.datetime.now()} \n{discord.__version__}')
+    print(f'Bot started running at {datetime.datetime.now()}')
 
 
 #HANDY FUNCTIONS 'N SHIT
