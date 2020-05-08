@@ -14,11 +14,19 @@ bot = commands.Bot(command_prefix = command_prefix)
 bot.remove_command('help')
 
 #loading extensions
-bot.load_extension('commands.cogs.unupc.unupc') #unusual price check command
-bot.load_extension('commands.cogs.pphelp.pphelp') #contains a listener that gives help regarding paypal trading when certain trigger words are detected in given channels, and a command that does the same manually
-bot.load_extension('commands.cogs.welcomes.welcomes') #contains a listener that sends a custom welcome message whenever a member joins the server
-bot.load_extension('commands.cogs.presence.presence') #contains the code that alternates the bot's presence
-bot.load_extension('commands.cogs.pinghelp.pinghelp') #sends a message if the trading advice role is pinged without links
+bot_extensions = [
+    'commands.cogs.unupc.unupc', #unusual price check command
+    
+    'commands.cogs.welcomes.welcomes', #contains a listener that sends a custom welcome message whenever a member joins the server
+    'commands.cogs.pinghelp.pinghelp', #sends a message if the trading advice role is pinged without links
+    'commands.cogs.pphelp.pphelp', #contains a listener that gives help regarding paypal trading when certain trigger words are detected in given channels, and a command that does the same manually
+
+    'commands.cogs.presence.presence', #contains the code that alternates the bot's presence
+    'commands.cogs.member_role' #handles everything related to the member role
+]
+
+for extension in bot_extensions:
+    bot.load_extension(extension)
 
 @bot.event
 async def on_ready():
@@ -37,9 +45,11 @@ def checkifbotowner(ctx): #checks if the sender of the message is the owner of t
     if ctx.author.id == 226441515914756097:
         return True
 
+
+
 #COMMANDS
 
-
+#should this even be here? extension pin.py exists
 @bot.command()
 async def pin(ctx, messageID):
 
@@ -72,7 +82,7 @@ async def pin(ctx, messageID):
         await ctx.send('Sorry, this is for moderators only')
 
 
-
+#shuts down the bot
 @bot.command()
 async def crash(ctx): #stops the bot, the bat file it's launched from ensures it's rebooted
     if checkifbotowner(ctx) == True:
@@ -82,19 +92,18 @@ async def crash(ctx): #stops the bot, the bat file it's launched from ensures it
         await ctx.send("Only the bot owner (Ques) can use this")
 
 
-
+#reloads the given extension
 @bot.command()
 async def reload(ctx, extension): #reloads the given extension
     if checkifbotowner(ctx) == True: #checks if the user is the bot owner
-        try: #tries the primary command folder first, then the cog folder
-            bot.reload_extension(f'commands.{extension}.{extension}')
-        except:
-            bot.reload_extension(f'commands.cogs.{extension}.{extension}')
+        for bot_extension in bot_extensions: #iterates through the list of extension paths, checks if any match the given extension
+            if extension in bot_extension:
+                bot.reload_extension(bot_extension)
     else:
         await ctx.send("Only the bot owner (Ques) can use this")
 
 
-
+#sends help message
 @bot.command()
 async def help(ctx): #sends a help message
     embed = discord.Embed(title="Command list", description=f"Prefix: {command_prefix}", color=0xc40e26)
