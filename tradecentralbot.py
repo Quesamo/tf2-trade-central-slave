@@ -16,7 +16,8 @@ bot.remove_command('help')
 #loading extensions
 bot_extensions = [
     'commands.unupc.unupc', #unusual price check command
-    
+    'commands.randomoutputs',
+
     'commands.welcomes.welcomes', #contains a listener that sends a custom welcome message whenever a member joins the server
     'commands.pinghelp.pinghelp', #sends a message if the trading advice role is pinged without links
     'commands.pphelp.pphelp', #contains a listener that gives help regarding paypal trading when certain trigger words are detected in given channels, and a command that does the same manually
@@ -109,9 +110,11 @@ async def help(ctx): #sends a help message
     embed = discord.Embed(title="Command list", description=f"Prefix: {command_prefix}", color=0xc40e26)
 
     embed.add_field(name=f"{command_prefix}help", value="Lists all bot commands (duh)")
-    embed.add_field(name=f"{command_prefix}pin", value="``[MOD COMMAND]`` Include a message ID to save it to a special channel") #PIN
+    embed.add_field(name=f"{command_prefix}pin", value="``[MOD COMMAND]`` Include a message ID to save it to a special channel")
     embed.add_field(name=f"{command_prefix}unupc", value="Price checks an unusual. Syntax is ``effectname.hatname``. (This command is under construction and has been known to not work with certain effects. Report any bugs to the bot owner)")
     embed.add_field(name=f"{command_prefix}refreshprices", value=f"Updates the prices used by {command_prefix}unupc. This will soon be done automatically every 2 hours")
+    embed.add_field(name=f"{command_prefix}flip", value="Simulates a coinflip. Custom coin sides can be set (ex.: ``$flip black, white``)")
+    embed.add_field(name=f"{command_prefix}roll", value="Simulates a die roll. Upper limit can be set (ex.: ``$roll 10``), as well as amount + upper limit (ex.: ``$roll 2d6``)")
     embed.set_footer(text="TF2 Trade Central Slave version -497, created by ya boi Quesamo (patent pending)")
     await ctx.send(embed=embed)
 
