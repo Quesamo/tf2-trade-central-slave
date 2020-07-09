@@ -15,14 +15,14 @@ bot.remove_command('help')
 
 #loading extensions
 bot_extensions = [
-    'commands.cogs.unupc.unupc', #unusual price check command
+    'commands.unupc.unupc', #unusual price check command
     
-    'commands.cogs.welcomes.welcomes', #contains a listener that sends a custom welcome message whenever a member joins the server
-    'commands.cogs.pinghelp.pinghelp', #sends a message if the trading advice role is pinged without links
-    'commands.cogs.pphelp.pphelp', #contains a listener that gives help regarding paypal trading when certain trigger words are detected in given channels, and a command that does the same manually
+    'commands.welcomes.welcomes', #contains a listener that sends a custom welcome message whenever a member joins the server
+    'commands.pinghelp.pinghelp', #sends a message if the trading advice role is pinged without links
+    'commands.pphelp.pphelp', #contains a listener that gives help regarding paypal trading when certain trigger words are detected in given channels, and a command that does the same manually
 
-    'commands.cogs.presence.presence', #contains the code that alternates the bot's presence
-    'commands.cogs.member_role' #handles everything related to the member role
+    'commands.presence.presence', #contains the code that alternates the bot's presence
+    'commands.member_role' #handles everything related to the member role
 ]
 
 for extension in bot_extensions:
