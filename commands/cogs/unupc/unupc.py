@@ -16,7 +16,7 @@ class unupc(commands.Cog):
     def refreshprices_func(self): #updates the unusual prices, writes them to a file
 
         with open('commands/cogs/unupc/api_key.txt', 'r') as api_key: #opens the file containing the api key (remember the core bot file is in a higher directory)
-            key = api_key.read() #reads the file and assings to a var
+            key = api_key.read() #reads the file and assigns to a var
             payload = {'key': key} #formats the request payload
             print('Connecting to Backpack.tf API')
 
@@ -27,7 +27,8 @@ class unupc(commands.Cog):
         with open('api responses/backpacktf_igetpricesv4_response.json', 'w+') as backpacktf_response: #writes the api response to a file
             json.dump(response, backpacktf_response)
 
-        print(f"Prices updated at {datetime.datetime.now()}")
+        #the API gives the download time in epoch, useful for checking when the prices were *actually updated*
+        print(f"Prices updated at {datetime.datetime.now()} (Epoch: {datetime.datetime.now().timestamp()})")
 
 
     @tasks.loop(hours=2.0) #updates the prices every 2 hours
@@ -46,7 +47,7 @@ class unupc(commands.Cog):
 
 
     @commands.command() #the main unupc command
-    async def unupc(self, ctx, item_input): #defines the command itself itself
+    async def unupc(self, ctx, item_input): #defines the command itself
         
         def getPrices(): #calls the api and formats it for unusual price checking. returns a list of possible unusual items if successful, returns None if not
             with open('api responses/backpacktf_igetpricesv4_response.json', 'r') as sampleresponse:
