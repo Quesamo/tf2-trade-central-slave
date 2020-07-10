@@ -7,7 +7,7 @@ class presence(commands.Cog):
     def __init__(self, bot):
         
         self.bot = bot
-        self.status_list = cycle(['$help', 'scrapbanking in 2019'])
+        self.status_list = cycle(['$help', 'scrapbanking in 2020'])
 
         self.changepresence.start() # pylint: disable=no-member 
         #gives an error if pylint isn't told to ignore the line, even though the code runs just fine

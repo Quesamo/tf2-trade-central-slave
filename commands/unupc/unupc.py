@@ -11,45 +11,12 @@ class unupc(commands.Cog):
     def __init__(self, bot):
 
         self.bot = bot
-        self.refreshprices_loop.start() # pylint: disable=no-member
-
-    def refreshprices_func(self): #updates the unusual prices, writes them to a file
-
-        with open('commands/cogs/unupc/api_key.txt', 'r') as api_key: #opens the file containing the api key (remember the core bot file is in a higher directory)
-            key = api_key.read() #reads the file and assings to a var
-            payload = {'key': key} #formats the request payload
-            print('Connecting to Backpack.tf API')
-
-        request = requests.get('https://backpack.tf/api/IGetPrices/v4?', params=payload) #requests from the API with the given params
-        response = request.json() #formats the json retrieved from the API
-        if response['response']['success'] == 0: #if the request is unsuccsessful
-            print('Request failed')
-        with open('api responses/backpacktf_igetpricesv4_response.json', 'w+') as backpacktf_response: #writes the api response to a file
-            json.dump(response, backpacktf_response)
-
-        print(f"Prices updated at {datetime.datetime.now()}")
-
-
-    @tasks.loop(hours=2.0) #updates the prices every 2 hours
-    async def refreshprices_loop(self):
-        self.refreshprices_func()
-
-    @refreshprices_loop.before_loop
-    async def before_refreshprices(self):
-        await self.bot.wait_until_ready()
-
-
-    @commands.command()
-    async def refreshprices(self, ctx):
-        self.refreshprices_func()
-        await ctx.send('Prices updated!')
-
 
     @commands.command() #the main unupc command
-    async def unupc(self, ctx, item_input): #defines the command itself itself
+    async def unupc(self, ctx, item_input): #defines the command itself
         
-        def getPrices(): #calls the api and formats it for unusual price checking. returns a list of possible unusual items if successful, returns None if not
-            with open('api responses/backpacktf_igetpricesv4_response.json', 'r') as sampleresponse:
+        def getPrices(): #gets the saved API response and formats it for unusual price checking. returns a list of possible unusual items if successful, returns None if not
+            with open('commands/call_APIs/api responses/backpacktf_igetpricesv4_response.json', 'r') as sampleresponse:
                 response = json.load(sampleresponse)
             
             if response['response']['success'] == 0: #if the request was unsuccessful
