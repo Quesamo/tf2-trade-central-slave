@@ -19,12 +19,13 @@ bot_extensions = [
     'commands.randomoutputs',
     'commands.pin.pin',
 
+    'commands.automod.automod',
     'commands.welcomes.welcomes', #contains a listener that sends a custom welcome message whenever a member joins the server
-    'commands.pinghelp.pinghelp', #sends a message if the trading advice role is pinged without links
-    'commands.pphelp.pphelp', #contains a listener that gives help regarding paypal trading when certain trigger words are detected in given channels, and a command that does the same manually
+    #'commands.pinghelp.pinghelp', #sends a message if the trading advice role is pinged without links
+    #'commands.pphelp.pphelp', #contains a listener that gives help regarding paypal trading when certain trigger words are detected in given channels, and a command that does the same manually
 
     'commands.presence.presence', #contains the code that alternates the bot's presence
-    'commands.member_role' #handles everything related to the member role
+    #'commands.member_role' #handles everything related to the member role
 ]
 
 for extension in bot_extensions:
@@ -54,7 +55,7 @@ def checkifbotowner(ctx): #checks if the sender of the message is the owner of t
 
 #shuts down the bot
 @bot.command()
-async def crash(ctx): #stops the bot, the bat file it's launched from ensures it's rebooted
+async def crash(ctx): #stops the bot, the bat/sh file it's launched from ensures it's rebooted
     if checkifbotowner(ctx) == True:
         await ctx.send("Bot stopped, rebooting")
         raise SystemExit
@@ -62,13 +63,20 @@ async def crash(ctx): #stops the bot, the bat file it's launched from ensures it
         await ctx.send("Only the bot owner (Ques) can use this")
 
 
-#reloads the given extension
+"""
+If the user is the bot owner, iterates through
+the loaded extensions and see if the last part
+(that being the actual name of the extension file) matches
+the given extension name. If so, reloads the bot extension
+"""
 @bot.command()
-async def reload(ctx, extension): #reloads the given extension
+async def reload(ctx, extension):
     if checkifbotowner(ctx) == True: #checks if the user is the bot owner
-        for bot_extension in bot_extensions: #iterates through the list of extension paths, checks if any match the given extension
-            if extension in bot_extension:
+        for bot_extension in bot_extensions:
+            if extension == bot_extension.split('.')[-1]:
                 bot.reload_extension(bot_extension)
+                return
+        await ctx.send(f"Can't find extension '{extension}''")
     else:
         await ctx.send("Only the bot owner (Ques) can use this")
 
