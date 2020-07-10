@@ -16,16 +16,14 @@ bot.remove_command('help')
 #loading extensions
 bot_extensions = [
     'commands.unupc.unupc', #unusual price check command
-    'commands.randomoutputs',
-    'commands.pin.pin',
+    'commands.randomoutputs', #flip and roll commands
+    'commands.pin.pin', #pin command
 
-    'commands.automod.automod',
-    'commands.welcomes.welcomes', #contains a listener that sends a custom welcome message whenever a member joins the server
-    #'commands.pinghelp.pinghelp', #sends a message if the trading advice role is pinged without links
-    #'commands.pphelp.pphelp', #contains a listener that gives help regarding paypal trading when certain trigger words are detected in given channels, and a command that does the same manually
+    'commands.automod.automod', #assigns member roles, auto-responds to certain messages to aid moderation
+    'commands.welcomes.welcomes', #sends a custom welcome message on member join
+    'commands.call_APIs.call_APIs',
 
     'commands.presence.presence', #contains the code that alternates the bot's presence
-    #'commands.member_role' #handles everything related to the member role
 ]
 
 for extension in bot_extensions:
@@ -53,9 +51,11 @@ def checkifbotowner(ctx): #checks if the sender of the message is the owner of t
 #COMMANDS
 
 
-#shuts down the bot
+"""
+stops the bot, the bat/sh file it's launched from ensures it's rebooted
+"""
 @bot.command()
-async def crash(ctx): #stops the bot, the bat/sh file it's launched from ensures it's rebooted
+async def crash(ctx):
     if checkifbotowner(ctx) == True:
         await ctx.send("Bot stopped, rebooting")
         raise SystemExit
