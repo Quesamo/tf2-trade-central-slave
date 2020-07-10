@@ -35,7 +35,6 @@ async def on_ready():
 
 
 #HANDY FUNCTIONS 'N SHIT
-#counter-intuitively, these can't be imported into the other files because they trigger circular imports. lol
 
 def checkifmod(ctx): #checks if the sender of the message is a moderator
         for role in ctx.author.roles:
@@ -51,7 +50,6 @@ def checkifbotowner(ctx): #checks if the sender of the message is the owner of t
 
 #COMMANDS
 
-#COMMANDS
 
 """
 stops the bot, the bat/sh file it's launched from ensures it's rebooted
