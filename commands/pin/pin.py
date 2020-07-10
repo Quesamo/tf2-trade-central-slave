@@ -20,6 +20,11 @@ class pin(commands.Cog):
             await ctx.send("Only valid message IDs can be used for pinning")
             return #leaves the function
 
+        #embed fields don't support more than 1024 characters
+        if len(targetMessage.content) > 1024:
+            await ctx.send("Message must be 1024 or fewer characters")
+            return
+
         #continues if it gets a valid message ID
         attachment_urls = []
         for attachment in targetMessage.attachments: #cycles through each attachment in the message, and gets the link for each one
