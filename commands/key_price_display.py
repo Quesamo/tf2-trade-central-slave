@@ -12,26 +12,26 @@ class key_price_display(commands.Cog):
     def __init__(self, bot):
 
         self.bot = bot
-        self.key_price_display_channel = self.bot.get_channel(731301801977970761)
+        self.key_price_display_channel = self.bot.get_channel(731309709872595015)
         #linter needs to ignore this line. code works fine
         self.refresh_key_price_loop.start() #pylint: disable=no-member
 
 
     """
     Gets the current key price from the saved
-    API response. Returns int
+    API response. Returns float
     """
     def get_key_price(self):
-        with open('commands/call_APIs/api_responses/backpack_igetpricesv4_response.json', 'r') as api_response:
+        with open('commands/call_APIs/api_responses/backpacktf_igetpricesv4_response.json', 'r') as api_response:
             response = json.load(api_response)
-            return response['response']['items']['Mann Co. Supply Crate Key']['prices']['6']['Tradable']['Craftable'][0]['value']
-
+            key_price = response['response']['items']['Mann Co. Supply Crate Key']['prices']['6']['Tradable']['Craftable'][0]['value']
+            return key_price
     
     #automatically updates the display
     @tasks.loop(hours=2.0)
     async def refresh_key_price_loop(self):
         key_price = self.get_key_price()
-        await self.key_price_display_channel.edit(name=f"Key price: {key_price}")
+        await self.key_price_display_channel.edit(name=f"Key price: {key_price} ref")
         print('Key price display updated')
 
     @refresh_key_price_loop.before_loop
@@ -44,7 +44,7 @@ class key_price_display(commands.Cog):
     @commands.command()
     async def refresh_key_price(self, ctx):
         key_price = self.get_key_price()
-        await self.key_price_display_channel.edit(name=f"Key price: {key_price}")
+        await self.key_price_display_channel.edit(name=f"Key price: {key_price} ref")
         print('Key price display updated')
 
 
