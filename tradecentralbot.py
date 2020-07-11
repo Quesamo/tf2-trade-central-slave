@@ -21,9 +21,10 @@ bot_extensions = [
 
     'commands.automod.automod', #assigns member roles, auto-responds to certain messages to aid moderation
     'commands.welcomes.welcomes', #sends a custom welcome message on member join
-    'commands.call_APIs.call_APIs',
+    'commands.call_APIs.call_APIs', #automatically calls APIs at certain intervals
 
-    'commands.presence.presence', #contains the code that alternates the bot's presence
+    'commands.presence.presence', #alternates the bot's presence
+    'commands.key_price_display' #displays the current key price as a channel name
 ]
 
 for extension in bot_extensions:
