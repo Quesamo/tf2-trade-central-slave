@@ -16,7 +16,7 @@ class unupc(commands.Cog):
     async def unupc(self, ctx, item_input): #defines the command itself
         
         def getPrices(): #gets the saved API response and formats it for unusual price checking. returns a list of possible unusual items if successful, returns None if not
-            with open('commands/call_APIs/api responses/backpacktf_igetpricesv4_response.json', 'r') as sampleresponse:
+            with open('commands/call_APIs/api_responses/backpacktf_igetpricesv4_response.json', 'r') as sampleresponse:
                 response = json.load(sampleresponse)
             
             if response['response']['success'] == 0: #if the request was unsuccessful
