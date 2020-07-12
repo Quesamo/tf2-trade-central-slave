@@ -7,10 +7,14 @@ class pin(commands.Cog):
         self.bot = bot
     
     @commands.command()
-    @commands.has_role(334151916756008961) #checks if the user is a mod
-    async def pin(self, ctx, messageID):
+    @commands.has_permissions(manage_messages=True) #prevents users without manage message permissions from pinning
+    async def pin(self, ctx, *, messageID=""): #messageID is optional to better handle cases in which none is given
 
-        #targetMessage = bot. #gets the target message 
+        #prevents a massive traceback when no argument is given
+        if messageID == "":
+            await ctx.send("A Discord message ID is required for pinning (google how to get it)")
+            return
+
         pinsChannel = self.bot.get_channel(603785272815124480) #gets the channel that it's gonna send the message to (#pins)
         
         try:
