@@ -48,18 +48,49 @@ class randomoutputs(commands.Cog):
             await ctx.send(f"You rolled **{random.randint(1, int(config))}**")
             return
 
+        #v More than one dice rolled v
+
         #splits the config string into two vars
         config_split = config.split('d')
         dice_amount = int(config_split[0])
         dice_sides = int(config_split[1])
+
+
+        # For some reason the formatting breaks after 198 dice. This line prevents this
+        # until a better fix can be found. 
+        if dice_amount > 198:
+            await ctx.send("Can't roll more than 198 dice")
+            return
         
-        #contains the result for each dice rolled
-        roll_results = []
+
+        # This bit prevents output from passing the 2000 character limit of discord,
+        # in which case the bot will output nothing. It also prevents dice rolls that are so expansive they
+        # stop the bot for a significant period of time. It has to be done here to
+        # stop the bot before a potentially expansive roll is performed.
+
+        output_const_string_1 = "You rolled " # These are defined as two constants
+        output_const_string_2 = "Total: "     # to allow measuring of both their lengths
+
+        # This next line is interesting. To ensure the output message is under 2000 chars, the length of both constant strings
+        # of the output message, the dice amount times the length of the roll's upper limit (worst case scenario, every dice 
+        # hits the upper limit, thus getting the same amount of digits as it), the dice amount - 1 and then multiplied by 2 (representing
+        # the ', ' between each result, -1 because you don't need one at the end), are all added together. This represents the
+        # max possible length of the output string, and the code will only progress if that is under the 2000 character limit. 
+
+        estimated_output_length = len(output_const_string_1) + len(output_const_string_2) + (dice_amount * len(str(dice_sides))) + ((dice_amount-1) * 2)
+
+        if estimated_output_length > 2000:
+            print(f"Estimated output length of roll: {estimated_output_length}")
+            await ctx.send("Roll too expansive, not executed")
+            return
+
+        roll_results = [] #contains the result for each dice rolled
         for _ in range(1, dice_amount+1): #range() 2nd argument is exclusive
             roll_results.append(random.randint(1, dice_sides))
     
         result_string = "" #string to be used for sending the results
         results_total = 0 #total of all rolls
+
         
         #loop modifies both of these vars for efficiency
         for count, result in enumerate(roll_results, start=1):
@@ -68,9 +99,10 @@ class randomoutputs(commands.Cog):
             after the last result.
             """
             result_string += f"**{str(result)}**{', ' if count < len(roll_results) else ''}"
-            results_total += int(result) 
+            results_total += int(result)
+
         
-        await ctx.send(f"You rolled {result_string} \n\n Total: {results_total}")
+        await ctx.send(f"{output_const_string_1}{result_string}\n\n {output_const_string_2}{results_total}")
 
 
 
