@@ -74,13 +74,14 @@ class randomoutputs(commands.Cog):
         # This next line is interesting. To ensure the output message is under 2000 chars, the length of both constant strings
         # of the output message, the dice amount times the length of the roll's upper limit (worst case scenario, every dice 
         # hits the upper limit, thus getting the same amount of digits as it), the dice amount - 1 and then multiplied by 2 (representing
-        # the ', ' between each result, -1 because you don't need one at the end), are all added together. This represents the
-        # max possible length of the output string, and the code will only progress if that is under the 2000 character limit. 
+        # the ', ' between each result, -1 because you don't need one at the end), as well as the 4 asterisks per roll for the bold affect,
+        # are all added together. This represents the max possible length of the output string, 
+        # and the code will only progress if that is under the 2000 character limit. 
 
-        estimated_output_length = len(output_const_string_1) + len(output_const_string_2) + (dice_amount * len(str(dice_sides))) + ((dice_amount-1) * 2)
+        estimated_output_length = len(output_const_string_1) + len(output_const_string_2) + (dice_amount * len(str(dice_sides))) + ((dice_amount-1) * 2) + dice_amount * 4
 
         if estimated_output_length > 2000:
-            print(f"Estimated output length of roll: {estimated_output_length}")
+            #print(f"Estimated output length of roll: {estimated_output_length}")
             await ctx.send("Roll too expansive, not executed")
             return
 
