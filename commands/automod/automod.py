@@ -69,7 +69,7 @@ class automod(commands.Cog):
         Warns against the risks of cash trading when certain trigger words are used in the ad channels.
         """
         #message is not sent by the bot, and is sent in a listing channel
-        if message.author.id != 603734708450361364 and any(message.channel.id == listing_channel_id for listing_channel_id in self.listing_channels):
+        if message.author.id != 603734708450361364 and message.channel.id in self.listing_channels:
             if any(trigger_word in message.content.lower() for trigger_word in self.cash_trigger_words):
                 await message.channel.send(self.cash_help_message)
     
