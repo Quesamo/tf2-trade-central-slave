@@ -18,6 +18,7 @@ bot_extensions = [
     'commands.unupc.unupc', #unusual price check command
     'commands.randomoutputs', #flip and roll commands
     'commands.pin.pin', #pin command
+    'commands.tf_currency', #commands for converting tf2 currencies
 
     'commands.automod.automod', #assigns member roles, auto-responds to certain messages to aid moderation
     'commands.welcomes.welcomes', #sends a custom welcome message on member join
