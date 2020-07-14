@@ -94,6 +94,8 @@ async def help(ctx): #sends a help message
     embed.add_field(name=f"{command_prefix}refreshprices", value=f"Updates the prices used by {command_prefix}unupc. This will soon be done automatically every 2 hours")
     embed.add_field(name=f"{command_prefix}flip", value="Simulates a coinflip. Custom coin sides can be set (ex.: ``$flip black, white``)")
     embed.add_field(name=f"{command_prefix}roll", value="Simulates a die roll. Upper limit can be set (ex.: ``$roll 10``), as well as amount + upper limit (ex.: ``$roll 2d6``)")
+    embed.add_field(name=f"{command_prefix}toref", value="Converts a given amount of TF2 keys to ref")
+    embed.add_field(name=f"{command_prefix}tokeys", value="Converts a given amount of ref to TF2 keys")
     embed.set_footer(text="TF2 Trade Central Slave version -497, created by ya boi Quesamo (patent pending)")
     await ctx.send(embed=embed)
 
